@@ -144,7 +144,7 @@ class Customer extends Person {
     //let priceofIcecream = this.price * numberOfIceCreams;
     if (this._isInRange(vendor) && this._haveEnoughMoney(vendor,numberOfIceCreams))
     { 
-      vendor.sellTo(this.numberOfIceCreams)}
+     return vendor.sellTo(this.numberOfIceCreams)}
       
   }
 }
