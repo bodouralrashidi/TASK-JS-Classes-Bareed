@@ -97,15 +97,15 @@ class Person {
  * new vendor = new Vendor(name, x, y);
  **********************************************************/
 class Vendor extends Person {
-  constructor(name , x,y,range = 5, price = 1) {
-    super(name, x,y);
-    this.range = range;
-    this.price = price;
+  constructor(name, x, y) {
+    super(name, x, y);
+    this.range = 5;
+    this.price = 1;
   }
   sellTo(customer, numberOfIceCreams) {
-    
-    this.moveTo(this.location);
-    this.wallet.money = customer;
+    this.moveTo(customer.location);
+    this.wallet.credit(this.price * numberOfIceCreams)
+   customer.wallet.debit( this.price * numberOfIceCreams);
   }
 }
 
@@ -126,28 +126,27 @@ class Vendor extends Person {
  * new customer = new Customer(name, x, y);
  **********************************************************/
 class Customer extends Person {
-  constructor(name , x,y, wallet = 10) {
+  constructor(name, x, y) {
     super(name, x, y);
-    this.wallet.money = wallet;
-
+    this.wallet.money = 10;
   }
+
   _isInRange(vendor) {
-      return this.range <= vendor ? true: false
+    return this.location.distanceTo(vendor) <= vendor.range ? true : false;
+  }
+  _haveEnoughMoney(vendor, numberOfIceCreams) {
 
-    
+    let priceofIcecream = vendor.price * numberOfIceCreams;
+    return priceofIcecream <= this.wallet.money ? true : false;
   }
-  _haveEnoughMoney(vendor, numberOfIceCreams)
-  {
-   let priceofIcecream = this.price * numberOfIceCreams
-    return priceofIcecream <=  this.wallet ? true : false
+  requestIceCream(vendor, numberOfIceCreams) {
 
+    //let priceofIcecream = this.price * numberOfIceCreams;
+    if (this._isInRange(vendor) && this._haveEnoughMoney(vendor,numberOfIceCreams))
+    { 
+      vendor.sellTo(this.numberOfIceCreams)}
+      
   }
-  requestIceCream(vendor, numberOfIceCreams){
-let priceofIcecream = this.price * numberOfIceCreams
-if ( this.wallet.money >= priceofIcecream && priceofIcecream <= vendor )
-return true
-  }
-  
 }
 
 export { Point, Wallet, Person, Customer, Vendor };
